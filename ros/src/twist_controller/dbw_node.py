@@ -66,14 +66,14 @@ class DBWNode(object):
 
         self.controller = Controller(wheel_base, steer_ratio, steering_min_speed,  max_lat_accel,
                                      max_steer_angle, brake_deadband, accel_limit, decel_limit, vehicle_mass, wheel_radius,
-                                     fuel_cpacity, self.sample_freq)
+                                     fuel_capacity, self.sample_freq)
 
         # TODO: Subscribe to all the topics you need to
         rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.dbw_enabled_cb)
         rospy.Subscriber('/current_velocity', TwistStamped, self.current_twist_cb)
         rospy.Subscriber('/twist_cmd', TwistStamped, self.target_twist_cb)
 
-
+        '''
         #Debug comment out later
         rospy.Subscriber('/vehicle/steering_report', SteeringReport, self.steer_cb)
         rospy.Subscriber('/vehicle/throttle_report', ThrottleReport, self.throttle_cb)
@@ -81,7 +81,7 @@ class DBWNode(object):
         rospy.Subscriber('/vehicle/steering_cmd', SteeringCmd, self.steer_cb)
         rospy.Subscriber('/vehicle/throttle_cmd', ThrottleCmd, self.throttle_cb)
         rospy.Subscriber('/vehicle/brake_cmd', BrakeCmd, self.brake_cb)
-
+        '''
 
         self.loop()
 
@@ -93,7 +93,7 @@ class DBWNode(object):
 
             # TODO: Get predicted throttle, brake, and steering using `twist_controller`
             # You should only publish the control commands if dbw is enabled
-            if self.is_dw_enabled:
+            if self.is_dbw_enabled:
                 self.throttle, self.brake, self.steering = self.controller.control(self.is_dbw_enabled,
                                                                                    self.target_twist.linear.x,
                                                                                    self.target_twist.angular.z,
@@ -101,7 +101,7 @@ class DBWNode(object):
                 self.publish(self.throttle, self.brake, self.steering)
             rate.sleep()
     
-    def targt_twist_cb(self, msg):
+    def target_twist_cb(self, msg):
         rospy.loginfo("target twist callback")
         self.target_twist = msg.twist
 
@@ -114,7 +114,7 @@ class DBWNode(object):
         rospy.loginfo("dbw_enabled callback invoked with value %s", self.is_dbw_enabled)
 
     #Debug log invocation
-
+    '''
     def steer_cb(self, msg):
         rospy.logwarn("ROSBAG throttle is %s", msg.pedal_cmd)
     
@@ -123,7 +123,7 @@ class DBWNode(object):
 
     def brake_cb(self, msg):
         rospy.logwarn("ROSBAG brake is %s", msg.pedal_cmd)
-
+    '''
     def publish(self, throttle, brake, steer):
         tcmd = ThrottleCmd()
         tcmd.enable = True

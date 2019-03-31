@@ -22,12 +22,12 @@ class Controller(object):
 
         #initalize the YAW controller, accel controller, throttle controller and low pass filter 
         self.yaw_controller = YawController(wheel_base, steer_ratio, min_speed, max_lat_accel, max_steer_angle)
-        self.accel_controller = PID(kp=0.45, ki=0.02, mn=decel_limit, mx=accel_limit)
-        self.throttle_controller = PID(kp=1.0, ki=0.001, mn=0.0, mx=0.2)
+        self.accel_controller = PID(kp=0.45, ki=0.02, kd=0.01, mn=decel_limit, mx=accel_limit)
+        self.throttle_controller = PID(kp=1.0, ki=0.001, kd=0.10,  mn=0.0, mx=0.2)
         self.lowpass_filter = LowPassFilter(0.15, self.dt)
 
 
-    def control(self, dbw_enabled, target_linear_velocity, target_angulur_velocity, current_velocity):
+    def control(self, dbw_enabled, target_linear_velocity, target_angular_velocity, current_velocity):
         # TODO: Change the arg, kwarg list to suit your needs
         # Return throttle, brake, steer
         
