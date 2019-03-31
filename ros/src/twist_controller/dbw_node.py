@@ -46,7 +46,7 @@ class DBWNode(object):
         max_lat_accel = rospy.get_param('~max_lat_accel', 3.)
         max_steer_angle = rospy.get_param('~max_steer_angle', 8.)
         #Minimum speed to steer
-        steering_minimum_speed = 2.5
+        steering_min_speed = 2.5
 
         self.steer_pub = rospy.Publisher('/vehicle/steering_cmd',
                                          SteeringCmd, queue_size=1)
@@ -64,7 +64,7 @@ class DBWNode(object):
         # TODO: Create `Controller` object
         # self.controller = Controller(<Arguments you wish to provide>)
 
-        self.controller = Controller(wheel_base, steer_ratio, steering_minimum_speed,  max_lat_accel,
+        self.controller = Controller(wheel_base, steer_ratio, steering_min_speed,  max_lat_accel,
                                      max_steer_angle, brake_deadband, accel_limit, decel_limit, vehicle_mass, wheel_radius,
                                      fuel_cpacity, self.sample_freq)
 

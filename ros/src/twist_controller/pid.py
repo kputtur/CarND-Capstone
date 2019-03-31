@@ -1,3 +1,10 @@
+'''
+A generic PID controller that can be used in twist_controller.py 
+
+kp the proportional value of PID controller
+ki the integral value of the PID controller
+kd the derivative value for PID controller
+'''
 
 MIN_NUM = float('-inf')
 MAX_NUM = float('inf')
