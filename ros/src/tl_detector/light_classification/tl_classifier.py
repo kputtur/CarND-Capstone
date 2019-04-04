@@ -1,9 +1,16 @@
 from styx_msgs.msg import TrafficLight
+from opencv_model import OCVModel
+import os
+import rospy
 
 class TLClassifier(object):
-    def __init__(self):
-        #TODO load classifier
-        pass
+    def __init__(self, method):
+        if method == "opencv_model":
+            self.model = OCVModel()
+            rospy.logwarn("I am here")
+        else:
+            #TODO implement the Classifier using RNN Model
+            rospy.logwarn("no model mentioned")
 
     def get_classification(self, image):
         """Determines the color of the traffic light in the image
@@ -16,4 +23,5 @@ class TLClassifier(object):
 
         """
         #TODO implement light color prediction
-        return TrafficLight.UNKNOWN
+        result = self.model.predict(image)
+        return result
