@@ -1,4 +1,3 @@
-
 from yaw_controller import YawController
 from pid import PID
 from lowpass import LowPassFilter
@@ -54,7 +53,7 @@ class Controller(object):
         if target_linear_velocity == 0 and current_velocity < 0.1:
             throttle = 0
             # To prevent Carla from moving requires about 700 Nm of torque
-            brake = 700
+            brake = 400
 
         elif throttle < .1 and accel < 0:
             throttle = 0

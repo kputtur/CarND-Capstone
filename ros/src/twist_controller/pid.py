@@ -36,6 +36,7 @@ class PID(object):
             val = self.min
         else:
             self.int_val = integral
+
         self.last_error = error
 
         return val

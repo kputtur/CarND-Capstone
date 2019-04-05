@@ -7,7 +7,7 @@ class TLClassifier(object):
     def __init__(self, method):
         if method == "opencv_model":
             self.model = OCVModel()
-            rospy.logwarn("I am here")
+            #rospy.logwarn("I am here")
         else:
             #TODO implement the Classifier using RNN Model
             rospy.logwarn("no model mentioned")
