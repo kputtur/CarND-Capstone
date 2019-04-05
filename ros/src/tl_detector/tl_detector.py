@@ -71,7 +71,7 @@ class TLDetector(object):
         self.waypoints = waypoints
         if not self.waypoints_2d:
             self.waypoints_2d = [[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
-            self.waypoint_tree = KDTree(self.waypoints_2d)
+            self.waypoints_tree = KDTree(self.waypoints_2d)
 
     def traffic_cb(self, msg):
         self.lights = msg.lights
@@ -103,13 +103,13 @@ class TLDetector(object):
             self.last_wp = light_wp
             #self.upcoming_red_light_pub.publish(Int32(light_wp))
         else:
-            self.published_wp = Int32(self.last_wp)
+            self.publish_wp = Int32(self.last_wp)
             #self.upcoming_red_light_pub.publish(Int32(self.last_wp))
         self.state_count += 1
 
     def publish_traffic_lights(self):
-        self.upcoming_red_light_pub.publish(self.published_wp)
-        if self.published_wp == Int32(-1):
+        self.upcoming_red_light_pub.publish(self.publish_wp)
+        if self.publish_wp == Int32(-1):
             rospy.logwarn("traffic light shows GREEN or UNKNOWN")
         else:
             rospy.logwarn("traffic light shows RED or YELLOW")
@@ -126,7 +126,7 @@ class TLDetector(object):
 
         """
         #pass the x and y co ordinates
-        closest_waypoint = self.waypoint_tree.query([x, y], 1)[1]
+        closest_waypoint = self.waypoints_tree.query([x, y], 1)[1]
         return closest_waypoint
 
     def get_light_state(self, light):
@@ -164,7 +164,7 @@ class TLDetector(object):
         stop_line_positions = self.config['stop_line_positions']
         if(self.pose):
             car_position = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
-            rospy.logwarn("car position is %s", car_position)
+            #rospy.logwarn("car position is %s", car_position)
 
             #TODO find the closest visible traffic light (if one exists)
             diff = len(self.waypoints.waypoints)
@@ -183,8 +183,8 @@ class TLDetector(object):
 
         if nearest_light:
             state = self.get_light_state(nearest_light)
-            rospy.logwarn("stop line position is %s", line_position)
-            rospy.logwarn("light state is %s", state)
+            #rospy.logwarn("stop line position is %s", line_position)
+            #rospy.logwarn("light state is %s", state)
             return line_position, state
         
         self.waypoints = None

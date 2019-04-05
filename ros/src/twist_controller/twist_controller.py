@@ -35,17 +35,18 @@ class Controller(object):
             self.throttle_controller.reset()
             return 0., 0., 0.
 
-        vel_error = target_linear_velocity = current_velocity
+        vel_error = target_linear_velocity -  current_velocity
         raw_accel = self.accel_controller.step(vel_error, self.dt)
 
         self.lowpass_filter.filt(raw_accel)
         accel = self.lowpass_filter.get()
 
-        #Get sterring values after getting angular and current velocity
-        steer = self.yaw_controller.get_steering(target_linear_velocity, target_angular_velocity, current_velocity)
 
         brake = 0.0
         throttle = 0.0
+
+        #Get sterring values after getting angular and current velocity
+        steer = self.yaw_controller.get_steering(target_linear_velocity, target_angular_velocity, current_velocity)
 
         if accel > 0.0:
             throttle = self.throttle_controller.step(accel, self.dt)

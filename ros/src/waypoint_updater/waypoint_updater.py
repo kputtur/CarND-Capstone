@@ -87,13 +87,13 @@ class WaypointUpdater(object):
     def publish_wp(self):
         final_lane = self.chosen_lane()
 
-        
+        """ 
         #Debug
         for i in range(len(final_lane.waypoints)):
             rospy.logwarn("Next Waypoint= x=%d, y=%d",
                           final_lane.waypoints[i].pose.pose.position.x,
                           final_lane.waypoints[i].pose.pose.position.y)
-         
+        """ 
         self.final_waypoints_pub.publish(final_lane)
 
     def chosen_lane(self):
@@ -112,8 +112,8 @@ class WaypointUpdater(object):
             #rospy.logwarn("GREEN or UNKNOWN")
             lane.waypoints = base_waypoints
         else:
-            rospy.logwarn("publish decelerate as stopline is %s and farthest is %s", self.stopline_wp_index, farthest_idx)
-            rospy.logwarn("RED OR YELLOW Ready to stop")
+            #rospy.logwarn("publish decelerate as stopline is %s and farthest is %s", self.stopline_wp_index, farthest_idx)
+            #rospy.logwarn("RED OR YELLOW Ready to stop")
             lane.waypoints = self.decelerate_waypoints(base_waypoints, closest_idx)
 
         #Debug comment once done
