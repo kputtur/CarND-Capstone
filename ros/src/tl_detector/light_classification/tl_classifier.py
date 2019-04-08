@@ -1,6 +1,6 @@
 from styx_msgs.msg import TrafficLight
 from opencv_model import OCVModel
-from carla import CarlaModel
+#from carla import CarlaModel
 import os
 import rospy
 
